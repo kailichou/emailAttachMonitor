@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+    <Account>
+    <!--email account info-->
+        <sender emailAddress="" password=""/>
+        <receiver emailAddress=""/>
+    </Account>
+    <Client>
+    <!--email server info-->
+        <pop3 host="pop.qiye.aliyun.com" port="110" ports="995"/>
+        <imap host="imap.qiye.aliyun.com" port="143" ports="993"/>
+        <smtp host="smtp.qiye.aliyun.com" port="25" ports="465"/>
+    </Client>
+    <Attachment>
+    <!--download or upload file paths-->
+        <inputFolder path="D:\email\Input\"/>
+        <outputFolder path=""/>
+    </Attachment> 
+</root>

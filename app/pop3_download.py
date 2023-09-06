@@ -17,11 +17,13 @@ fconf = str(pp)+'\conf\settings.xml'
 """
 def decode(header: str):
     value, charset = email.header.decode_header(header)[0]
-    if charset:
-        return str(value, encoding=charset)
-    else:
-        return value
-
+    try:
+        if charset:
+            return str(value, encoding=charset)
+        else:
+            return value
+    except UnicodeDecodeError:
+        return str(value,encoding='gb18030')
 
 """
     功能：下载某一个消息的所有附件
@@ -29,14 +31,14 @@ def decode(header: str):
 def download_attachment(msg, folder_path):
     subject = decode(msg.get('Subject'))  # 获取消息标题
     if not os.path.isdir(folder_path):
-        path = PurePath(folder_path)#folder_path.replace('\\','\')
-        #os.mkdir(path)
         os.makedirs(folder_path)
+        
     for part in msg.walk():  # 遍历整个msg的内容
         if part.get_content_disposition() == 'attachment':
             attachment_name = decode(part.get_filename())  # 获取附件名称
             attachment_content = part.get_payload(decode=True)  # 下载附件
-            attachment_file = open(folder_path+'/' + attachment_name, 'wb') # 在指定目录下创建文件，注意二进制文件需要用wb模式打开
+            path = os.path.join(folder_path+'\\', attachment_name)
+            attachment_file = open(path, 'wb') # 在指定目录下创建文件，注意二进制文件需要用wb模式打开
             attachment_file.write(attachment_content)  # 将附件保存到本地
             attachment_file.close()
     print('Done………………', subject)

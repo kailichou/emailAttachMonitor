@@ -25,7 +25,7 @@ def load_conf(fconf, func, protocol):
         
         
     for attch in root.find('Attachment'):
-        if attch.tag=="inputFolder":
+        if attch.tag=='inputFolder':
             data = attch.attrib 
             path = data.get('path')
 
